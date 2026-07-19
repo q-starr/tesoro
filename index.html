@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tesoro — the AI treasury for Latin America (simulated demo)</title>
+<meta name="description" content="Working demo of an AI spend-management (&quot;treasury&quot;) business for regulated LatAm — see the leak, route around it, pay out of verified savings. All figures simulated client-side.">
+<meta property="og:title" content="Tesoro — the AI treasury for Latin America (simulated demo)">
+<meta property="og:description" content="Working demo of an AI spend-management (&quot;treasury&quot;) business for regulated LatAm — see the leak, route around it, pay out of verified savings. All figures simulated client-side.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tesoro.q-starr.app/">
+<style>
+  /* ── Tokens (§3) ─────────────────────────────────────────── */
+  :root {
+    --ink:    #16243A;
+    --ink-2:  #0F1A2C;
+    --line:   rgba(255,255,255,0.09);
+    --text:   #E8ECF3;
+    --muted:  #8FA0B8;
+    --teal:   #0E8C84;
+    --gold:   #E3B341;
+    --burn:   #D0654F;
+    --paper:  #F6F1E6;
+  }
+
+  /* ── Base ────────────────────────────────────────────────── */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font: 16px/1.6 Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--teal); font-weight: 700; text-underline-offset: 2px; }
+  a:hover { text-decoration: none; }
+
+  .wrap {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 32px);
+  }
+
+  /* ── Type treatments ─────────────────────────────────────── */
+  .eyebrow {
+    margin: 0 0 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .display {
+    margin: 0 0 12px;
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    margin: 0 0 32px;
+    max-width: 46ch;
+    font-size: clamp(19px, 2.2vw, 24px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+  .footnote { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+
+  /* ── Focus (accessibility floor, §2) ─────────────────────── */
+  :focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn {
+    display: inline-block;
+    background: var(--teal);
+    color: #FFFFFF;
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 22px;
+    font: 800 19px/1.3 Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn:hover { filter: brightness(1.08); }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  .site-header { border-bottom: 1px solid var(--line); }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-block: 18px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .wordmark { font-size: 18px; font-weight: 800; letter-spacing: 0.06em; }
+  .wordmark .dot { color: var(--gold); }
+  .strapline { color: var(--muted); font-size: 14px; }
+  .badge {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 12px;
+    white-space: nowrap;
+  }
+
+  /* ── Sections / cards ────────────────────────────────────── */
+  section { padding-block: clamp(56px, 8vw, 88px); border-top: 1px solid var(--line); }
+  main > section:first-of-type { border-top: 0; }
+  .card {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .grid-3 { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+  .grid-audit { display: grid; gap: 32px; grid-template-columns: 2fr 3fr; align-items: start; }
+  .rates-grid { display: grid; gap: 20px; grid-template-columns: 3fr 2fr; align-items: start; }
+  .grid-3 > *, .grid-audit > *, .rates-grid > * { min-width: 0; } /* let .table-scroll shrink instead of the card overflowing */
+  @media (max-width: 840px) {
+    .grid-3, .grid-audit, .rates-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── S1 hero — THE SPREAD ────────────────────────────────── */
+  .hero-sub { margin: 0 0 36px; max-width: 52ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
+  .tickers { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  .ticker-spread { grid-column: 1 / -1; }
+  .ticker-label { margin: 0 0 8px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .ticker-value {
+    margin: 0;
+    font-size: clamp(24px, 3.2vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .ticker-spread .ticker-value { font-size: clamp(42px, 6.5vw, 76px); }
+  .burn { color: var(--burn); }
+  .gold { color: var(--gold); }
+  .hero-cta { margin: 32px 0 0; }
+  @media (max-width: 620px) { .tickers { grid-template-columns: 1fr; } }
+
+  /* ── S2 problem ──────────────────────────────────────────── */
+  .stat-num { margin: 0 0 10px; font-size: clamp(26px, 3vw, 36px); font-weight: 800; letter-spacing: -0.01em; color: var(--gold); }
+  .stat-label { margin: 0; font-size: 15px; }
+  .stat-kicker { margin: 12px 0 0; font-size: 15px; font-weight: 700; }
+  .stat-src { margin: 14px 0 0; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .quote { margin: 24px 0 0; }
+  .quote blockquote {
+    margin: 0 0 6px;
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .quote figcaption { font-size: 13px; color: var(--muted); }
+  .quote-para { margin: 16px 0 0; color: var(--muted); font-size: 15px; }
+
+  /* ── S3 rate board ───────────────────────────────────────── */
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 8px 12px 10px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  td.r, th.r { text-align: right; }
+  td.model { font-weight: 700; white-space: nowrap; }
+  td.note { color: var(--muted); font-size: 13px; }
+  .chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 999px;
+    padding: 2px 9px;
+    white-space: nowrap;
+  }
+  .chip-frontier { color: var(--burn); border-color: var(--burn); }
+  .chip-mid { color: var(--muted); border-color: var(--muted); }
+  .chip-open { color: var(--teal); border-color: var(--teal); }
+  .volatility .kicker { margin: 14px 0 0; font-weight: 800; }
+  .volatility p { margin: 14px 0 0; font-size: 15px; color: var(--muted); }
+  .volatility svg { display: block; width: 100%; height: auto; margin-top: 6px; }
+
+  /* ── S4 audit ────────────────────────────────────────────── */
+  .preset {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background: var(--ink-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 0 0 12px;
+    font: inherit;
+    cursor: pointer;
+  }
+  .preset:hover { border-color: rgba(255,255,255,0.22); }
+  .preset[aria-pressed="true"] {
+    border-color: var(--teal);
+    background: rgba(14,140,132,0.14);
+  }
+  .preset-name { font-weight: 700; font-size: 15px; }
+  .preset-bill { color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .preset-custom { margin: 0 0 12px; }
+  .preset-custom .preset { margin: 0; border-radius: 12px 12px 0 0; }
+  .custom-slider-row {
+    border: 1px solid var(--line);
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    padding: 14px 18px 18px;
+    background: var(--ink-2);
+  }
+  .preset-custom.selected .preset, .preset-custom.selected .custom-slider-row { border-color: var(--teal); }
+  .preset-custom.selected .preset { background: rgba(14,140,132,0.14); }
+  input[type="range"] { width: 100%; accent-color: var(--teal); margin: 0; }
+  .mode-toggle { display: flex; gap: 8px; margin-top: 20px; }
+  .mode-toggle button {
+    flex: 1;
+    background: var(--ink-2);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font: 700 14px/1.3 Arial, Helvetica, sans-serif;
+    cursor: pointer;
+  }
+  .mode-toggle button[aria-pressed="true"] {
+    color: var(--text);
+    border-color: var(--teal);
+    background: rgba(14,140,132,0.14);
+  }
+  .toggle-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+
+  .result-label {
+    margin: 0 0 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .big-num { margin: 0; font-size: clamp(30px, 3.6vw, 44px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.15; }
+  .levers { margin: 24px 0; display: grid; gap: 18px; }
+  .lever-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .lever-label { margin: 0; font-weight: 700; font-size: 15px; }
+  .lever-sub { margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 40ch; }
+  .lever-amt { margin: 0; font-weight: 800; color: var(--gold); white-space: nowrap; }
+  .lever-bar { margin-top: 8px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden; }
+  .lever-bar span { display: block; height: 100%; background: var(--gold); }
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
+  .verified-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .verified-num { font-size: clamp(36px, 4.4vw, 56px); color: var(--gold); }
+  .pct-chip {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 8px;
+  }
+  .opt-row { margin-top: 20px; }
+  .opt-num { margin: 0; font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; }
+  .fee-box {
+    border: 1px solid var(--teal);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 24px 0;
+  }
+  .fee-box p { margin: 0 0 8px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .fee-box strong { font-weight: 800; }
+  .fee-tag { font-weight: 800; margin-bottom: 0 !important; display: block !important; }
+
+  /* ── S5 / S6 numbered steps ──────────────────────────────── */
+  .step-marker {
+    margin: 0 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .step h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+  .step p { margin: 0; font-size: 15px; color: var(--muted); }
+  .step p a { font-weight: 700; }
+
+  /* ── S6 operator ─────────────────────────────────────────── */
+  .portfolio-card { margin-top: 24px; }
+  .portfolio-summary {
+    display: flex;
+    gap: 12px 32px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .portfolio-summary .big-num { color: var(--gold); font-size: clamp(24px, 3vw, 34px); }
+  .portfolio-sub { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+  .closing { margin: 28px 0 0; font-size: clamp(17px, 2vw, 20px); font-weight: 800; max-width: 60ch; }
+
+  /* ── S7 CFO report modal ─────────────────────────────────── */
+  dialog {
+    border: 0;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 620px;
+    width: calc(100% - 32px);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  dialog::backdrop { background: rgba(15,26,44,0.72); }
+  .report { padding: clamp(22px, 4vw, 34px); font-size: 15px; }
+  .report h2 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .report-head { margin: 0 0 18px; color: rgba(22,36,58,0.66); font-size: 13px; }
+  .report-head strong { color: var(--ink); }
+  .report-head p { margin: 2px 0 0; }
+  .report-lines { margin: 0 0 18px; }
+  .report-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(22,36,58,0.12);
+  }
+  .report-line dt { color: rgba(22,36,58,0.66); }
+  .report-line dd { margin: 0; font-weight: 800; white-space: nowrap; }
+  .report-eps { margin: 0 0 18px; font-size: 13px; color: rgba(22,36,58,0.8); }
+  .report h3 { margin: 0 0 6px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(22,36,58,0.66); }
+  .report table { font-size: 14px; margin-bottom: 18px; }
+  .report td { border-color: rgba(22,36,58,0.12); padding: 7px 0; color: var(--ink); }
+  .report td.r { font-weight: 700; }
+  .report-foot { margin: 0 0 20px; font-size: 12px; color: rgba(22,36,58,0.66); }
+  .report-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid rgba(22,36,58,0.4);
+  }
+  .btn-ghost:hover { filter: none; border-color: var(--ink); }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  .site-footer { border-top: 1px solid var(--line); padding-block: 40px; color: var(--muted); font-size: 13px; }
+  .site-footer p { margin: 0 0 10px; max-width: 78ch; }
+  .site-footer p:last-child { margin-bottom: 0; }
+
+  /* ── Reduced motion (tickers switch to 1/sec in JS) ──────── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <div class="brand">
+      <span class="wordmark">TESORO<span class="dot">.</span></span>
+      <span class="strapline">the AI treasury for Latin America</span>
+    </div>
+    <span class="badge">Simulated · Client-side</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- S1 — THE SPREAD -->
+  <section id="hero" aria-label="The spread">
+    <div class="wrap">
+      <p class="eyebrow">The AI treasury for Latin America</p>
+      <h1 class="display">Tokenmaxxing is on your P&amp;L.</h1>
+      <p class="hero-sub">Tesoro finds the leak, routes around it, and pays for itself out of the savings.</p>
+      <div class="tickers">
+        <div class="card">
+          <p class="ticker-label">Frontier token spend, worldwide, since you opened this page</p>
+          <p class="ticker-value num burn" id="tickerA">$0.00</p>
+        </div>
+        <div class="card">
+          <p class="ticker-label">The same work, managed</p>
+          <p class="ticker-value num" id="tickerB">$0.00</p>
+        </div>
+        <div class="card ticker-spread">
+          <p class="ticker-label">The spread — what management captures</p>
+          <p class="ticker-value num gold" id="tickerC">$0.00</p>
+        </div>
+      </div>
+      <p class="footnote">Basis: enterprise frontier-API spend tracking $35B+ in 2026 ≈ $1,110 every second, and a 54% managed blend. Illustrative.</p>
+      <p class="hero-cta"><a class="btn" href="#audit">Run the audit ↓</a></p>
+    </div>
+  </section>
+
+  <!-- S2 — THE PROBLEM -->
+  <section id="problem" aria-label="The problem">
+    <div class="wrap">
+      <h2 class="eyebrow">The problem</h2>
+      <p class="lead">Every company bought AI. Almost none of them meter it.</p>
+      <div class="grid-3" id="statCards"></div>
+      <figure class="quote card">
+        <blockquote>"…probably have no idea how much tokenmaxxing is going on…"</blockquote>
+        <figcaption>Chamath Palihapitiya, CNBC, July 14, 2026</figcaption>
+        <p class="quote-para">His forecast: an EPS miss of a few pennies, traced back to token spend nobody was watching.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- S3 — THE RATE BOARD -->
+  <section id="rates" aria-label="The rate board">
+    <div class="wrap">
+      <h2 class="eyebrow">The rate board</h2>
+      <p class="lead">What a million tokens costs this month — and why "this month" is the operative phrase.</p>
+      <div class="rates-grid">
+        <div class="card">
+          <div class="table-scroll">
+            <table aria-describedby="rateFootnote">
+              <thead>
+                <tr><th>Model</th><th>Tier</th><th class="r">Input</th><th class="r">Output</th><th>Note</th></tr>
+              </thead>
+              <tbody id="rateRows"></tbody>
+            </table>
+          </div>
+          <p class="footnote" id="rateFootnote">• illustrative — verify current rate cards before client use</p>
+        </div>
+        <aside class="card volatility">
+          <h3 class="eyebrow">90-day move</h3>
+          <svg viewBox="0 0 280 96" role="img" aria-label="Kimi input price stepped from $0.95 per million tokens in April to $3.00 on July 16">
+            <path d="M12 70 H128 V26 H268" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
+            <circle cx="12" cy="70" r="3.5" fill="var(--gold)"/>
+            <circle cx="268" cy="26" r="3.5" fill="var(--gold)"/>
+            <text id="sparkFrom" x="12" y="88" fill="var(--muted)" font-size="11" font-family="Arial, Helvetica, sans-serif"></text>
+            <text id="sparkTo" x="268" y="14" fill="var(--gold)" font-size="11" font-weight="700" text-anchor="end" font-family="Arial, Helvetica, sans-serif"></text>
+          </svg>
+          <p>Kimi K2.6 was the router's budget default at $0.95/$4. On July 16, its successor K3 launched at $3/$15 — 3.2× input, 3.75× output, from the same lab, in under three months.</p>
+          <p class="kicker">Static procurement decisions expire. Continuous routing doesn't.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4 — THE AUDIT -->
+  <section id="audit" aria-label="The audit">
+    <div class="wrap">
+      <h2 class="eyebrow">The audit</h2>
+      <p class="lead">Pick a company like yours. Watch the leak itemize itself.</p>
+      <div class="grid-audit">
+        <div class="audit-controls">
+          <div id="presetList" role="group" aria-label="Company profiles"></div>
+          <div class="mode-toggle" role="group" aria-label="Savings mode">
+            <button type="button" data-mode="conservative" aria-pressed="false">Conservative</button>
+            <button type="button" data-mode="typical" aria-pressed="true">Typical</button>
+          </div>
+          <p class="toggle-note">Conservative haircuts every lever by 30%.</p>
+        </div>
+        <div class="card audit-results">
+          <p class="result-label">Current monthly AI spend</p>
+          <p class="big-num num burn" id="resBill"></p>
+          <div class="levers" id="leverRows"></div>
+          <hr class="divider">
+          <div class="verified-row">
+            <div>
+              <p class="result-label">Verified savings</p>
+              <p class="big-num verified-num num" id="resSavings"></p>
+            </div>
+            <span class="pct-chip num" id="resPct"></span>
+          </div>
+          <div class="opt-row">
+            <p class="result-label">Optimized bill</p>
+            <p class="opt-num num" id="resOpt"></p>
+          </div>
+          <div class="fee-box">
+            <p><span id="feeLabel"></span> <strong class="num" id="resFee"></strong></p>
+            <p><span id="netLabel"></span> <strong class="num" id="resNet"></strong></p>
+            <p><strong class="fee-tag">If you don't save, you don't pay.</strong></p>
+          </div>
+          <button type="button" class="btn" id="openReport">Generate CFO report →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5 — HOW TESORO WORKS -->
+  <section id="how" aria-label="How Tesoro works">
+    <div class="wrap">
+      <h2 class="eyebrow">How Tesoro works</h2>
+      <p class="lead">Three engagements, in the order a CFO buys them.</p>
+      <div class="grid-3">
+        <article class="card step">
+          <p class="step-marker">01 See</p>
+          <h3>The tokenmaxxing audit.</h3>
+          <p>We connect billing and gateway data and hand back one number: what you spend, what it buys, and what it should cost. Delivered in weeks, through people you already know.</p>
+        </article>
+        <article class="card step">
+          <p class="step-marker">02 Save</p>
+          <h3>The routing gateway.</h3>
+          <p>Every request goes to the cheapest model that clears the quality bar — re-decided continuously as rate cards move. Runs on the same router demonstrated at <a href="https://torre.q-starr.app">torre.q-starr.app</a>; Tesoro is the CFO door into it. Priced at 20% of verified savings plus a platform fee.</p>
+        </article>
+        <article class="card step">
+          <p class="step-marker">03 Serve</p>
+          <h3>Sovereign capacity.</h3>
+          <p>Regulated workloads only capture open-model savings if the model runs in-jurisdiction. SenseiNode operates that capacity in-region. Residency enforced: LGPD (BR), Ley 25.326 (AR), LFPDPPP (MX), Ley 19.628 (CL), Ley 18.331 (UY).</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6 — OPERATOR ECONOMICS -->
+  <section id="operator" aria-label="Operator economics">
+    <div class="wrap">
+      <h2 class="eyebrow">Operator economics</h2>
+      <p class="lead">What Tesoro earns the operator — before a single capacity contract.</p>
+      <div class="grid-3" id="revenueLines"></div>
+      <div class="card portfolio-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Tenant</th><th class="r">Savings/mo</th><th class="r">Revenue/mo</th></tr>
+            </thead>
+            <tbody id="portfolioRows"></tbody>
+          </table>
+        </div>
+        <div class="portfolio-summary">
+          <p class="big-num num" id="mrrNum"></p>
+          <p class="big-num num" id="arrNum"></p>
+        </div>
+        <p class="portfolio-sub">six tenants, before line 03 — each added tenant lands at ~flat software cost.</p>
+      </div>
+      <p class="closing">Models are replaceable plugs; a treasury the CFO trusts is not. Tesoro assumes the operator is SenseiNode.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- S7 — CFO REPORT (modal) -->
+<dialog id="reportModal" aria-labelledby="reportTitle">
+  <div class="report">
+    <h2 id="reportTitle"></h2>
+    <div class="report-head">
+      <p>Company: <strong id="repCompany"></strong></p>
+      <p>Prepared by: Tesoro · SenseiNode</p>
+    </div>
+    <dl class="report-lines" id="repLines"></dl>
+    <p class="report-eps" id="repEps" hidden></p>
+    <h3>Savings by department</h3>
+    <table><tbody id="repDept"></tbody></table>
+    <p class="report-foot">100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.</p>
+    <div class="report-actions">
+      <button type="button" class="btn" id="copyReport">Copy report</button>
+      <button type="button" class="btn btn-ghost" id="closeReport">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>TESORO — working demo of an AI spend-management ("treasury") business for regulated LatAm. All companies, bills, rates, savings and revenue are simulated client-side for illustration. Model rates marked • are illustrative; verify current rate cards before client use. Figures are not quotes, forecasts or financial advice.</p>
+    <p>A Q Starr LLC concept demo · sister demo: <a href="https://torre.q-starr.app">torre.q-starr.app</a></p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ── CONFIG — every numeric constant on the page lives here (§2) ── */
+const CONFIG = {
+  tickers: {
+    worldPerSec: 1109.84,   // frontier token spend, worldwide, $/sec
+    managedPerSec: 510.53,  // the same work, managed, $/sec — spread = A − B
+  },
+  stats: [
+    { num: "79%", label: "of enterprises had AI cost overruns in the past 12 months", src: "2026 enterprise surveys" },
+    { num: "$11.5B → $37B", label: "enterprise generative-AI spend, 2024 → 2025", src: "Menlo Ventures" },
+    { num: "11%", label: "open models' share of enterprise usage — falling, not rising",
+      kicker: "The arbitrage exists. Unmanaged enterprises can't capture it.", src: "Menlo Ventures" },
+  ],
+  rates: [ // USD per 1M tokens; ill = illustrative (renders •)
+    { model: "Claude Opus 4.8",  tier: "FRONTIER", input: 5.00, output: 25.00, ill: true,  note: "" },
+    { model: "GPT-5.6 Sol",      tier: "FRONTIER", input: 7.00, output: 30.00, ill: true,  note: "" },
+    { model: "Claude Sonnet 5",  tier: "MID",      input: 3.00, output: 15.00, ill: false, note: "" },
+    { model: "Kimi K3",          tier: "MID",      input: 3.00, output: 15.00, ill: false, note: "launched Jul 16 · cache-hit input $0.30" },
+    { model: "GLM 5.2",          tier: "OPEN",     input: 1.50, output: 7.00,  ill: true,  note: "" },
+    { model: "Kimi K2.7 Code",   tier: "OPEN",     input: 0.95, output: 4.00,  ill: false, note: "" },
+    { model: "Llama 4 (hosted)", tier: "OPEN",     input: 0.75, output: 1.50,  ill: true,  note: "" },
+    { model: "DeepSeek V4 Pro",  tier: "OPEN",     input: 0.50, output: 2.20,  ill: true,  note: "" },
+  ],
+  volatility: { from: 0.95, to: 3.00 }, // K2.6 → K3 input $/M, Apr → Jul 16
+  profiles: {
+    fintech: { name: "Regional fintech · BR · 1,200 staff", bill: 180000, s: [0.34, 0.22, 0.07, 0.06] },
+    telco:   { name: "Telco customer ops · MX · public co",  bill: 420000, s: [0.30, 0.28, 0.05, 0.04] },
+    retail:  { name: "Retail & e-commerce · AR · 400 staff", bill: 85000,  s: [0.40, 0.18, 0.09, 0.08] },
+    custom:  { name: "Your number", bill: null, s: [0.34, 0.22, 0.07, 0.06] },
+  },
+  slider: { min: 10000, max: 1500000, default: 250000 }, // log scale
+  levers: [
+    { label: "Model right-sizing",   r: 0.85, sub: "frontier calls that a MID/OPEN model clears at the same quality bar" },
+    { label: "Prompt caching",       r: 0.70, sub: "repeat context re-billed at full rate instead of cache-hit rates" },
+    { label: "Agent guardrails",     r: 0.90, sub: "runaway loops and unbounded multi-step workflows, capped" },
+    { label: "Shadow subscriptions", r: 0.55, sub: "unmanaged seats and duplicate tools, consolidated" },
+  ],
+  conservativeFactor: 0.7,
+  feeShare: 0.20,
+  platformFee: 3000,
+  sharesOutstanding: 350e6, // telco EPS line
+  chargeback: { // department splits of net savings; custom uses fintech
+    fintech: [["Engineering", 0.46], ["Support", 0.24], ["Ops", 0.18], ["Growth", 0.12]],
+    telco:   [["Support", 0.52], ["Engineering", 0.22], ["Ops", 0.16], ["Marketing", 0.10]],
+    retail:  [["Support", 0.38], ["Growth", 0.27], ["Engineering", 0.22], ["Ops", 0.13]],
+  },
+  portfolio: [ // fixed, Typical mode — not recomputed from UI state (§7)
+    ["Fintech A", 97000, 22400],
+    ["Fintech B", 97000, 22400],
+    ["Telco",     217600, 46500],
+    ["Retail A",  50200, 13000],
+    ["Retail B",  50200, 13000],
+    ["Retail C",  50200, 13000],
+  ],
+  revenueLines: [
+    { n: "01", title: "Gain-share",         copy: "20% of verified savings · scales with every dollar the client stops wasting" },
+    { n: "02", title: "Platform fee",       copy: "$3,000/mo per tenant · recurring contract revenue" },
+    { n: "03", title: "Sovereign capacity", copy: "open-model savings for regulated workloads require in-region inference — demand converts to reserved SenseiNode capacity contracts" },
+  ],
+};
+
+const $ = (id) => document.getElementById(id);
+const money2 = (v) => "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const round100 = (v) => Math.round(v / 100) * 100;
+const money0 = (v) => "$" + round100(v).toLocaleString("en-US");
+const rate2 = (v) => "$" + v.toFixed(2);
+
+/* ── S1 tickers — A−B=C from a shared clock; ≤1 render/100ms; 1/sec reduced ── */
+(function tickers() {
+  const a = $("tickerA"), b = $("tickerB"), c = $("tickerC");
+  const t0 = performance.now();
+  const render = (now) => {
+    const sec = (now - t0) / 1000;
+    const va = CONFIG.tickers.worldPerSec * sec;
+    const vb = CONFIG.tickers.managedPerSec * sec;
+    a.textContent = money2(va);
+    b.textContent = money2(vb);
+    c.textContent = money2(va - vb);
+  };
+  render(performance.now());
+  // 1/sec baseline keeps counters correct even while rAF is suspended (hidden tab);
+  // values derive from elapsed time, so they never drift or reset.
+  setInterval(() => render(performance.now()), 1000);
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let last = 0;
+    const loop = (now) => {
+      if (now - last >= 100) { last = now; render(now); }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+})();
+
+/* ── S2 stat cards ── */
+$("statCards").innerHTML = CONFIG.stats.map((s) => `
+  <article class="card">
+    <p class="stat-num num">${s.num}</p>
+    <p class="stat-label">${s.label}</p>
+    ${s.kicker ? `<p class="stat-kicker">${s.kicker}</p>` : ""}
+    <p class="stat-src">src ${s.src}</p>
+  </article>`).join("");
+
+/* ── S3 rate board ── */
+const CHIP = { FRONTIER: "chip-frontier", MID: "chip-mid", OPEN: "chip-open" };
+$("rateRows").innerHTML = CONFIG.rates.map((r) => `
+  <tr>
+    <td class="model">${r.model}</td>
+    <td><span class="chip ${CHIP[r.tier]}">${r.tier}</span></td>
+    <td class="r num">${rate2(r.input)}${r.ill ? " •" : ""}</td>
+    <td class="r num">${rate2(r.output)}${r.ill ? " •" : ""}</td>
+    <td class="note">${r.note}</td>
+  </tr>`).join("");
+$("sparkFrom").textContent = rate2(CONFIG.volatility.from) + " · Apr";
+$("sparkTo").textContent = rate2(CONFIG.volatility.to) + " · Jul 16";
+
+/* ── S4 audit simulator ── */
+const state = { profile: "fintech", mode: "typical", customBill: CONFIG.slider.default };
+const modeFactor = () => (state.mode === "conservative" ? CONFIG.conservativeFactor : 1);
+const currentBill = () => (state.profile === "custom" ? state.customBill : CONFIG.profiles[state.profile].bill);
+
+function compute() {
+  const bill = currentBill();
+  const s = CONFIG.profiles[state.profile].s;
+  const m = modeFactor();
+  const levers = CONFIG.levers.map((L, i) => bill * s[i] * L.r * m);
+  const total = levers.reduce((x, y) => x + y, 0);
+  return {
+    bill, levers, total,
+    optimized: bill - total,
+    fee: CONFIG.feeShare * total,
+    net: (1 - CONFIG.feeShare) * total,
+    pct: Math.round((total / bill) * 100),
+  };
+}
+
+function buildPresets() {
+  const order = ["fintech", "telco", "retail"];
+  $("presetList").innerHTML = order.map((k) => {
+    const p = CONFIG.profiles[k];
+    return `<button type="button" class="preset" data-profile="${k}" aria-pressed="false">
+      <span class="preset-name">${p.name}</span>
+      <span class="preset-bill num">${money0(p.bill)}/mo</span>
+    </button>`;
+  }).join("") + `
+    <div class="preset-custom" id="customWrap">
+      <button type="button" class="preset" data-profile="custom" aria-pressed="false">
+        <span class="preset-name">${CONFIG.profiles.custom.name}</span>
+        <span class="preset-bill num" id="customBillLabel"></span>
+      </button>
+      <div class="custom-slider-row">
+        <input type="range" id="customSlider" min="0" max="1000" step="1" aria-label="Monthly AI spend, custom">
+      </div>
+    </div>`;
+}
+
+const LOG_MIN = Math.log10(CONFIG.slider.min);
+const LOG_MAX = Math.log10(CONFIG.slider.max);
+const sliderToBill = (v) => Math.round(Math.pow(10, LOG_MIN + (v / 1000) * (LOG_MAX - LOG_MIN)) / 1000) * 1000;
+const billToSlider = (b) => Math.round(1000 * (Math.log10(b) - LOG_MIN) / (LOG_MAX - LOG_MIN));
+
+function render() {
+  const r = compute();
+  document.querySelectorAll("[data-profile]").forEach((btn) => {
+    btn.setAttribute("aria-pressed", String(btn.dataset.profile === state.profile));
+  });
+  $("customWrap").classList.toggle("selected", state.profile === "custom");
+  document.querySelectorAll(".mode-toggle button").forEach((btn) => {
+    btn.setAttribute("aria-pressed", String(btn.dataset.mode === state.mode));
+  });
+  $("customBillLabel").textContent = money0(state.customBill) + "/mo";
+  $("resBill").textContent = money0(r.bill);
+  $("leverRows").innerHTML = CONFIG.levers.map((L, i) => `
+    <div class="lever">
+      <div class="lever-top">
+        <div>
+          <p class="lever-label">${L.label}</p>
+          <p class="lever-sub">${L.sub}</p>
+        </div>
+        <p class="lever-amt num">−${money0(r.levers[i])}</p>
+      </div>
+      <div class="lever-bar"><span style="width:${(r.levers[i] / r.total) * 100}%"></span></div>
+    </div>`).join("");
+  $("resSavings").textContent = money0(r.total);
+  $("resPct").textContent = r.pct + "%";
+  $("resOpt").textContent = money0(r.optimized);
+  $("feeLabel").textContent = `Tesoro fee — ${Math.round(CONFIG.feeShare * 100)}% of verified savings:`;
+  $("netLabel").textContent = `Net to you — ${Math.round((1 - CONFIG.feeShare) * 100)}%:`;
+  $("resFee").textContent = money0(r.fee);
+  $("resNet").textContent = money0(r.net);
+}
+
+buildPresets();
+$("customSlider").value = billToSlider(CONFIG.slider.default);
+document.addEventListener("click", (e) => {
+  const preset = e.target.closest("[data-profile]");
+  if (preset) { state.profile = preset.dataset.profile; render(); return; }
+  const mode = e.target.closest(".mode-toggle button");
+  if (mode) { state.mode = mode.dataset.mode; render(); }
+});
+$("customSlider").addEventListener("input", (e) => {
+  state.customBill = sliderToBill(Number(e.target.value));
+  state.profile = "custom";
+  render();
+});
+render();
+
+/* ── S6 operator economics ── */
+$("revenueLines").innerHTML = CONFIG.revenueLines.map((l) => `
+  <article class="card step">
+    <p class="step-marker">${l.n} ${l.title}</p>
+    <p>${l.copy}</p>
+  </article>`).join("");
+$("portfolioRows").innerHTML = CONFIG.portfolio.map(([name, sav, rev]) => `
+  <tr>
+    <td class="model">${name}</td>
+    <td class="r num">${"$" + sav.toLocaleString("en-US")}</td>
+    <td class="r num">${"$" + rev.toLocaleString("en-US")}</td>
+  </tr>`).join("");
+const MRR = CONFIG.portfolio.reduce((sum, row) => sum + row[2], 0);
+$("mrrNum").textContent = "≈ $" + MRR.toLocaleString("en-US") + " MRR";
+$("arrNum").textContent = "≈ $" + ((MRR * 12) / 1e6).toFixed(2) + "M ARR";
+
+/* ── S7 CFO report modal ── */
+const modal = $("reportModal");
+const monthYear = () => new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+let reportText = "";
+
+function fillReport() {
+  const r = compute();
+  const profileName = CONFIG.profiles[state.profile].name;
+  const title = `Monthly AI treasury report — ${monthYear()} (simulated)`;
+  const lines = [
+    ["AI spend, unmanaged run-rate", money0(r.bill)],
+    ["Verified savings this month", money0(r.total)],
+    [`Tesoro fee (${Math.round(CONFIG.feeShare * 100)}% gain-share)`, money0(r.fee)],
+    ["Net savings", money0(r.net)],
+    ["Annualized net savings", money0(r.net * 12)],
+  ];
+  const splits = CONFIG.chargeback[state.profile] || CONFIG.chargeback.fintech;
+  const dept = splits.map(([d, share]) => [d, money0(r.net * share)]);
+
+  $("reportTitle").textContent = title;
+  $("repCompany").textContent = profileName;
+  $("repLines").innerHTML = lines.map(([k, v]) =>
+    `<div class="report-line"><dt>${k}</dt><dd class="num">${v}</dd></div>`).join("");
+  const eps = $("repEps");
+  if (state.profile === "telco") {
+    const cents = ((r.net * 12) / CONFIG.sharesOutstanding * 100).toFixed(1);
+    const shares = Math.round(CONFIG.sharesOutstanding / 1e6) + "M";
+    eps.textContent = `EPS effect (illustrative): at ${shares} shares outstanding, annualized net savings ≈ ${cents}¢ per share.`;
+    eps.hidden = false;
+  } else {
+    eps.hidden = true;
+  }
+  $("repDept").innerHTML = dept.map(([d, v]) =>
+    `<tr><td>${d}</td><td class="r num">${v}</td></tr>`).join("");
+
+  reportText = [
+    title,
+    `Company: ${profileName}`,
+    "Prepared by: Tesoro · SenseiNode",
+    "",
+    ...lines.map(([k, v]) => `${k}: ${v}`),
+    ...(eps.hidden ? [] : ["", eps.textContent]),
+    "",
+    "Savings by department",
+    ...dept.map(([d, v]) => `  ${d}: ${v}`),
+    "",
+    "100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.",
+  ].join("\n");
+}
+
+$("openReport").addEventListener("click", () => { fillReport(); modal.showModal(); });
+$("closeReport").addEventListener("click", () => modal.close());
+modal.addEventListener("click", (e) => { if (e.target === modal) modal.close(); });
+$("copyReport").addEventListener("click", async () => {
+  const btn = $("copyReport");
+  try {
+    await navigator.clipboard.writeText(reportText);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = reportText;
+    modal.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+  const label = btn.textContent;
+  btn.textContent = "Copied ✓";
+  setTimeout(() => { btn.textContent = label; }, 1500);
+});
+</script>
+
+</body>
+</html>
