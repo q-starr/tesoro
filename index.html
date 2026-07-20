@@ -155,6 +155,12 @@
   }
 
   /* ── S1 hero — THE SPREAD ────────────────────────────────── */
+  .hero-tag {
+    margin: 0 0 8px;
+    font-size: clamp(20px, 2.6vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
   .hero-sub { margin: 0 0 36px; max-width: 52ch; font-size: clamp(17px, 2vw, 20px); color: var(--muted); }
   .tickers { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
   .ticker-spread { grid-column: 1 / -1; }
@@ -463,7 +469,8 @@
   <section id="hero" aria-label="The spread">
     <div class="wrap">
       <p class="eyebrow">The AI treasury for Latin America</p>
-      <h1 class="display">Unmanaged AI spend is on your P&amp;L.</h1>
+      <h1 class="display">AI Spend Management</h1>
+      <p class="hero-tag">Unmanaged AI spend is on your P&amp;L.</p>
       <p class="hero-sub">Tesoro finds the leak, routes around it, and pays for itself out of the savings.</p>
       <div class="tickers">
         <div class="card">
