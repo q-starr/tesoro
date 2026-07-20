@@ -484,6 +484,307 @@
   .site-footer p { margin: 0 0 10px; max-width: 78ch; }
   .site-footer p:last-child { margin-bottom: 0; }
 
+  /* ── Design refresh: steadier fintech console ─────────────── */
+  :root {
+    --ink: #071116;
+    --ink-2: #0D1A20;
+    --ink-3: #13262E;
+    --line: rgba(184,209,206,0.18);
+    --text: #F3F6F2;
+    --muted: #9FB1AC;
+    --teal: #41D9C2;
+    --gold: #E8B957;
+    --burn: #FF6F61;
+    --paper: #F5EFE2;
+  }
+  body {
+    background-color: var(--ink);
+    background-image:
+      linear-gradient(180deg, rgba(65,217,194,0.08), rgba(7,17,22,0) 360px),
+      linear-gradient(90deg, rgba(232,185,87,0.04), rgba(255,111,97,0.05) 52%, rgba(65,217,194,0.04));
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+  }
+  *, *::before, *::after { letter-spacing: 0 !important; }
+  .wrap { max-width: 1180px; }
+  .eyebrow,
+  .board-label,
+  .stat-src,
+  th,
+  .chip,
+  .result-label,
+  .step-marker,
+  .report h3,
+  .badge {
+    font-size: 0.72rem;
+  }
+  .display {
+    color: var(--text);
+    background: none;
+    font-size: 4.35rem;
+    line-height: 0.96;
+    max-width: 12ch;
+  }
+  .lead {
+    font-size: 1.45rem;
+    line-height: 1.32;
+  }
+  .hero-tag { font-size: 1.55rem; }
+  .hero-sub { font-size: 1.12rem; }
+  .big-num { font-size: 2.65rem; }
+  .verified-num { font-size: 3.4rem; }
+  .board-val { font-size: 2rem; }
+  .board-val-lg { font-size: 4rem; }
+  .stat-num { font-size: 2.55rem; }
+  .quote blockquote { font-size: 1.55rem; }
+  .opt-num { font-size: 1.9rem; }
+  .portfolio-summary .big-num { font-size: 2.05rem; }
+  .closing { font-size: 1.25rem; }
+  .site-header {
+    background: rgba(7,17,22,0.82);
+    border-bottom-color: rgba(184,209,206,0.14);
+  }
+  .header-row {
+    padding-block: 14px;
+    flex-wrap: nowrap;
+  }
+  .wordmark { font-size: 1.05rem; }
+  .strapline { color: #B9C7C2; }
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .site-nav a {
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .site-nav a:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+  }
+  .site-nav .nav-cta {
+    background: rgba(65,217,194,0.14);
+    color: var(--teal);
+    border: 1px solid rgba(65,217,194,0.32);
+  }
+  .badge {
+    border-color: rgba(232,185,87,0.28);
+    color: #D9C58E;
+    background: rgba(232,185,87,0.08);
+  }
+  section {
+    border-top-color: rgba(184,209,206,0.14);
+  }
+  #hero {
+    min-height: calc(88svh - 68px);
+    display: flex;
+    align-items: center;
+    background-image:
+      linear-gradient(rgba(184,209,206,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,209,206,0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+  #hero .wrap { width: 100%; }
+  .hero-sub { max-width: 48ch; }
+  .hero-proof {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 28px 0 18px;
+    max-width: 900px;
+  }
+  .proof-item {
+    border: 1px solid rgba(184,209,206,0.16);
+    border-radius: 8px;
+    background: rgba(13,26,32,0.7);
+    padding: 12px 14px;
+  }
+  .proof-k {
+    display: block;
+    color: var(--gold);
+    font-weight: 850;
+    font-size: 1.05rem;
+  }
+  .proof-v {
+    display: block;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    margin-top: 2px;
+  }
+  .card,
+  .board,
+  .preset,
+  .preset-custom .preset,
+  .custom-slider-row,
+  .mode-toggle button,
+  .fee-box,
+  .flow-node,
+  .flow-money,
+  dialog,
+  .btn {
+    border-radius: 8px;
+  }
+  .card {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0) 48%),
+      var(--ink-2);
+    border-color: rgba(184,209,206,0.16);
+    box-shadow: 0 14px 38px rgba(0,0,0,0.25);
+  }
+  .grid-3 > .card:hover { border-color: rgba(65,217,194,0.35); }
+  .btn {
+    background: var(--teal);
+    color: #041314;
+    box-shadow: 0 12px 34px rgba(65,217,194,0.26);
+  }
+  .board {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(232,185,87,0.34);
+    background:
+      linear-gradient(90deg, rgba(232,185,87,0.1), rgba(65,217,194,0.04)),
+      var(--ink-2);
+  }
+  .board::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent 28%, transparent 72%, rgba(255,255,255,0.04));
+    opacity: 0.5;
+  }
+  .board-row,
+  .board-total {
+    position: relative;
+  }
+  .board-total {
+    border-top-color: rgba(232,185,87,0.48);
+  }
+  .board-label,
+  .result-label,
+  th,
+  .stat-src {
+    color: #AEBDB8;
+  }
+  .quote {
+    border-left: 4px solid var(--gold);
+    background: linear-gradient(90deg, rgba(232,185,87,0.09), rgba(255,255,255,0.02)), var(--ink-2);
+  }
+  .preset {
+    background: rgba(13,26,32,0.86);
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .preset:hover {
+    border-color: rgba(65,217,194,0.32);
+    transform: translateY(-1px);
+  }
+  .preset[aria-pressed="true"] {
+    border-color: rgba(65,217,194,0.7);
+    background: linear-gradient(90deg, rgba(65,217,194,0.18), rgba(13,26,32,0.92));
+  }
+  .preset[aria-pressed="true"] .preset-name { color: var(--teal); }
+  .preset-custom .preset { border-radius: 8px 8px 0 0; }
+  .custom-slider-row { border-radius: 0 0 8px 8px; background: rgba(13,26,32,0.86); }
+  .mode-toggle {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .mode-toggle button {
+    border: 0;
+    background: transparent;
+  }
+  .mode-toggle button[aria-pressed="true"] {
+    background: var(--teal);
+    color: #041314;
+  }
+  .audit-results {
+    border-color: rgba(65,217,194,0.28);
+  }
+  .lever-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.11);
+  }
+  .lever-bar span {
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+  }
+  .fee-box,
+  .flow-money {
+    background: rgba(65,217,194,0.08);
+  }
+  .flow-node {
+    background: rgba(13,26,32,0.78);
+  }
+  .split-bar { height: 16px; border-radius: 8px; }
+  dialog {
+    box-shadow: 0 28px 80px rgba(0,0,0,0.45);
+  }
+  .site-footer {
+    background: rgba(0,0,0,0.16);
+  }
+  @media (max-width: 900px) {
+    .header-row {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .site-nav {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .display { font-size: 3.2rem; }
+    .lead { font-size: 1.28rem; }
+    .hero-tag { font-size: 1.32rem; }
+    .board-val { font-size: 1.55rem; }
+    .board-val-lg { font-size: 2.8rem; }
+    .verified-num { font-size: 2.7rem; }
+    .hero-proof {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scroll-snap-type: x proximity;
+    }
+    .proof-item {
+      flex: 0 0 220px;
+      scroll-snap-align: start;
+    }
+  }
+  @media (max-width: 620px) {
+    .display { font-size: 2.55rem; }
+    .lead { font-size: 1.14rem; }
+    .hero-tag { font-size: 1.16rem; }
+    .hero-sub { font-size: 1rem; }
+    .header-row { gap: 10px; }
+    .strapline { display: none; }
+    .badge { white-space: normal; }
+    .card,
+    .board {
+      padding: 18px;
+    }
+    .preset {
+      display: grid;
+      gap: 4px;
+    }
+    .preset-bill { white-space: normal; }
+    .lever-top {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .board-row,
+    .board-total {
+      grid-template-columns: 16px 1fr;
+    }
+  }
+
   /* ── Reduced motion (tickers switch to 1/sec in JS) ──────── */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -503,6 +804,12 @@
       <span class="wordmark">TESORO<span class="dot">.</span></span>
       <span class="strapline">the AI treasury for Latin America</span>
     </div>
+    <nav class="site-nav" aria-label="Page sections">
+      <a href="#problem">Problem</a>
+      <a href="#rates">Rates</a>
+      <a href="#how">Workflow</a>
+      <a class="nav-cta" href="#audit">Audit</a>
+    </nav>
     <span class="badge">Simulated · Client-side</span>
   </div>
 </header>
@@ -513,9 +820,14 @@
   <section id="hero" aria-label="The spread">
     <div class="wrap">
       <p class="eyebrow">The AI treasury for Latin America</p>
-      <h1 class="display">AI Spend Management</h1>
+      <h1 class="display">AI Treasury for Enterprise Spend</h1>
       <p class="hero-tag">Unmanaged AI spend is on your P&amp;L.</p>
       <p class="hero-sub">Tesoro finds the leak, routes around it, and pays for itself out of the savings.</p>
+      <div class="hero-proof" aria-label="Tesoro proof points">
+        <span class="proof-item"><span class="proof-k">Weeks</span><span class="proof-v">to expose AI spend, quality, and leakage by team</span></span>
+        <span class="proof-item"><span class="proof-k">20%</span><span class="proof-v">gain-share on verified savings after optimization</span></span>
+        <span class="proof-item"><span class="proof-k">LatAm</span><span class="proof-v">routing and residency logic for regulated workloads</span></span>
+      </div>
       <div class="board" role="group" aria-label="Live spend counters">
         <div class="board-row">
           <span class="board-op" aria-hidden="true"></span>
