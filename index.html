@@ -577,6 +577,25 @@
     color: #D9C58E;
     background: rgba(232,185,87,0.08);
   }
+  .langtoggle {
+    display: flex;
+    border: 1px solid rgba(184,209,206,0.22);
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+  .langbtn {
+    font: 700 0.72rem/1 Inter, ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    padding: 7px 9px;
+    cursor: pointer;
+    transition: color .15s, background .15s;
+  }
+  .langbtn.active { color: var(--teal); background: rgba(65,217,194,0.16); }
+  .langbtn:not(.active):hover { color: var(--text); }
   section {
     border-top-color: rgba(184,209,206,0.14);
   }
@@ -802,15 +821,19 @@
   <div class="wrap header-row">
     <div class="brand">
       <span class="wordmark">TESORO<span class="dot">.</span></span>
-      <span class="strapline">the AI treasury for Latin America</span>
+      <span class="strapline" data-i18n="strapline">the AI treasury for Latin America</span>
     </div>
     <nav class="site-nav" aria-label="Page sections">
-      <a href="#problem">Problem</a>
-      <a href="#rates">Rates</a>
-      <a href="#how">Workflow</a>
-      <a class="nav-cta" href="#audit">Audit</a>
+      <a href="#problem" data-i18n="navProblem">Problem</a>
+      <a href="#rates" data-i18n="navRates">Rates</a>
+      <a href="#how" data-i18n="navFlow">Workflow</a>
+      <a class="nav-cta" href="#audit" data-i18n="navAudit">Audit</a>
     </nav>
-    <span class="badge">Simulated · Client-side</span>
+    <div class="langtoggle" role="group" aria-label="Language / Idioma">
+      <button type="button" class="langbtn active" data-lang="en">EN</button>
+      <button type="button" class="langbtn" data-lang="es">ES</button>
+    </div>
+    <span class="badge" data-i18n="badge">Simulated · Client-side</span>
   </div>
 </header>
 
@@ -819,47 +842,47 @@
   <!-- S1 — THE SPREAD -->
   <section id="hero" aria-label="The spread">
     <div class="wrap">
-      <p class="eyebrow">The AI treasury for Latin America</p>
-      <h1 class="display">AI Treasury for Enterprise Spend</h1>
-      <p class="hero-tag">Unmanaged AI spend is on your P&amp;L.</p>
-      <p class="hero-sub">Tesoro finds the leak, routes around it, and pays for itself out of the savings.</p>
+      <p class="eyebrow" data-i18n="heroEyebrow">The AI treasury for Latin America</p>
+      <h1 class="display" data-i18n="heroH1">AI Treasury for Enterprise Spend</h1>
+      <p class="hero-tag" data-i18n="heroTag">Unmanaged AI spend is on your P&amp;L.</p>
+      <p class="hero-sub" data-i18n="heroSub">Tesoro finds the leak, routes around it, and pays for itself out of the savings.</p>
       <div class="hero-proof" aria-label="Tesoro proof points">
-        <span class="proof-item"><span class="proof-k">Weeks</span><span class="proof-v">to expose AI spend, quality, and leakage by team</span></span>
-        <span class="proof-item"><span class="proof-k">20%</span><span class="proof-v">gain-share on verified savings after optimization</span></span>
-        <span class="proof-item"><span class="proof-k">LatAm</span><span class="proof-v">routing and residency logic for regulated workloads</span></span>
+        <span class="proof-item"><span class="proof-k" data-i18n="proofK1">Weeks</span><span class="proof-v" data-i18n="proofV1">to expose AI spend, quality, and leakage by team</span></span>
+        <span class="proof-item"><span class="proof-k">20%</span><span class="proof-v" data-i18n="proofV2">gain-share on verified savings after optimization</span></span>
+        <span class="proof-item"><span class="proof-k">LatAm</span><span class="proof-v" data-i18n="proofV3">routing and residency logic for regulated workloads</span></span>
       </div>
       <div class="board" role="group" aria-label="Live spend counters">
         <div class="board-row">
           <span class="board-op" aria-hidden="true"></span>
-          <p class="board-label">Frontier token spend, worldwide, since you opened this page</p>
+          <p class="board-label" data-i18n="boardA">Frontier token spend, worldwide, since you opened this page</p>
           <p class="board-val num burn" id="tickerA">$0.00</p>
         </div>
         <div class="board-row">
           <span class="board-op" aria-hidden="true">−</span>
-          <p class="board-label">The same work, managed</p>
+          <p class="board-label" data-i18n="boardB">The same work, managed</p>
           <p class="board-val num" id="tickerB">$0.00</p>
         </div>
         <div class="board-total">
           <span class="board-op" aria-hidden="true">=</span>
-          <p class="board-label">The spread — what management captures</p>
+          <p class="board-label" data-i18n="boardC">The spread — what management captures</p>
           <p class="board-val board-val-lg num gold" id="tickerC">$0.00</p>
         </div>
       </div>
-      <p class="footnote">Basis: enterprise frontier-API spend tracking $35B+ in 2026 ≈ $1,110 every second, and a 54% managed blend. Illustrative.</p>
-      <p class="hero-cta"><a class="btn" href="#audit">Run the audit ↓</a></p>
+      <p class="footnote" data-i18n="heroBasis">Basis: enterprise frontier-API spend tracking $35B+ in 2026 ≈ $1,110 every second, and a 54% managed blend. Illustrative.</p>
+      <p class="hero-cta"><a class="btn" href="#audit" data-i18n="heroCta">Run the audit ↓</a></p>
     </div>
   </section>
 
   <!-- S2 — THE PROBLEM -->
   <section id="problem" aria-label="The problem">
     <div class="wrap">
-      <h2 class="eyebrow">The problem</h2>
-      <p class="lead">Every company bought AI. Almost none of them meter it.</p>
+      <h2 class="eyebrow" data-i18n="probEyebrow">The problem</h2>
+      <p class="lead" data-i18n="probLead">Every company bought AI. Almost none of them meter it.</p>
       <div class="grid-3" id="statCards"></div>
       <figure class="quote card">
         <blockquote>"…probably have no idea how much tokenmaxxing is going on…"</blockquote>
         <figcaption>Chamath Palihapitiya, CNBC, July 14, 2026</figcaption>
-        <p class="quote-para">His forecast: an EPS miss of a few pennies, traced back to token spend nobody was watching.</p>
+        <p class="quote-para" data-i18n="quotePara">His forecast: an EPS miss of a few pennies, traced back to token spend nobody was watching.</p>
       </figure>
     </div>
   </section>
@@ -867,22 +890,22 @@
   <!-- S3 — THE RATE BOARD -->
   <section id="rates" aria-label="The rate board">
     <div class="wrap">
-      <h2 class="eyebrow">The rate board</h2>
-      <p class="lead">What a million tokens costs this month — and why "this month" is the operative phrase.</p>
+      <h2 class="eyebrow" data-i18n="rateEyebrow">The rate board</h2>
+      <p class="lead" data-i18n="rateLead">What a million tokens costs this month — and why "this month" is the operative phrase.</p>
       <div class="rates-grid">
         <div class="card">
           <div class="table-scroll">
             <table aria-describedby="rateFootnote">
               <thead>
-                <tr><th>Model</th><th>Tier</th><th class="r">Input</th><th class="r">Output</th><th>Note</th></tr>
+                <tr><th data-i18n="thModel">Model</th><th data-i18n="thTier">Tier</th><th class="r" data-i18n="thIn">Input</th><th class="r" data-i18n="thOut">Output</th><th data-i18n="thNote">Note</th></tr>
               </thead>
               <tbody id="rateRows"></tbody>
             </table>
           </div>
-          <p class="footnote" id="rateFootnote">• illustrative — verify current rate cards before client use</p>
+          <p class="footnote" id="rateFootnote" data-i18n="rateFoot">• illustrative — verify current rate cards before client use</p>
         </div>
         <aside class="card volatility">
-          <h3 class="eyebrow">90-day move</h3>
+          <h3 class="eyebrow" data-i18n="volEyebrow">90-day move</h3>
           <svg viewBox="0 0 280 96" role="img" aria-label="Kimi input price stepped from $0.95 per million tokens in April to $3.00 on July 16">
             <path d="M12 70 H128 V26 H268" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
             <circle cx="12" cy="70" r="3.5" fill="var(--gold)"/>
@@ -890,8 +913,8 @@
             <text id="sparkFrom" x="12" y="88" fill="var(--muted)" font-size="11" font-family="Arial, Helvetica, sans-serif"></text>
             <text id="sparkTo" x="268" y="14" fill="var(--gold)" font-size="11" font-weight="700" text-anchor="end" font-family="Arial, Helvetica, sans-serif"></text>
           </svg>
-          <p>Kimi K2.6 was the router's budget default at $0.95/$4. On July 16, its successor K3 launched at $3/$15 — 3.2× input, 3.75× output, from the same lab, in under three months.</p>
-          <p class="kicker">Static procurement decisions expire. Continuous routing doesn't.</p>
+          <p data-i18n="volCopy">Kimi K2.6 was the router's budget default at $0.95/$4. On July 16, its successor K3 launched at $3/$15 — 3.2× input, 3.75× output, from the same lab, in under three months.</p>
+          <p class="kicker" data-i18n="volKicker">Static procurement decisions expire. Continuous routing doesn't.</p>
         </aside>
       </div>
     </div>
@@ -900,41 +923,41 @@
   <!-- S4 — THE AUDIT -->
   <section id="audit" aria-label="The audit">
     <div class="wrap">
-      <h2 class="eyebrow">The audit</h2>
-      <p class="lead">Pick a company like yours. Watch the leak itemize itself.</p>
+      <h2 class="eyebrow" data-i18n="audEyebrow">The audit</h2>
+      <p class="lead" data-i18n="audLead">Pick a company like yours. Watch the leak itemize itself.</p>
       <div class="grid-audit">
         <div class="audit-controls">
           <div id="presetList" role="group" aria-label="Company profiles"></div>
           <div class="mode-toggle" role="group" aria-label="Savings mode">
-            <button type="button" data-mode="conservative" aria-pressed="false">Conservative</button>
-            <button type="button" data-mode="typical" aria-pressed="true">Typical</button>
+            <button type="button" data-mode="conservative" aria-pressed="false" data-i18n="modeCons">Conservative</button>
+            <button type="button" data-mode="typical" aria-pressed="true" data-i18n="modeTyp">Typical</button>
           </div>
-          <p class="toggle-note">Conservative haircuts every lever by 30%.</p>
+          <p class="toggle-note" data-i18n="modeNote">Conservative haircuts every lever by 30%.</p>
         </div>
         <div class="card audit-results">
-          <p class="result-label">Current monthly AI spend</p>
+          <p class="result-label" data-i18n="resBillLbl">Current monthly AI spend</p>
           <p class="big-num num burn" id="resBill"></p>
           <div class="levers" id="leverRows"></div>
           <hr class="divider">
           <div class="verified-row">
             <div>
-              <p class="result-label">Verified savings</p>
+              <p class="result-label" data-i18n="resSavLbl">Verified savings</p>
               <p class="big-num verified-num num" id="resSavings"></p>
             </div>
             <span class="pct-chip num" id="resPct"></span>
           </div>
           <div class="opt-row">
-            <p class="result-label">Optimized bill</p>
+            <p class="result-label" data-i18n="resOptLbl">Optimized bill</p>
             <p class="opt-num num" id="resOpt"></p>
           </div>
           <div class="fee-box">
             <div class="split-bar" aria-hidden="true"><span id="sbOpt"></span><span id="sbNet"></span><span id="sbFee"></span></div>
-            <p class="split-cap">Today's bill, redistributed — still spent · <span class="k-net">back to you</span> · <span class="k-fee">Tesoro</span></p>
+            <p class="split-cap" data-i18n="splitCap">Today's bill, redistributed — still spent · <span class="k-net">back to you</span> · <span class="k-fee">Tesoro</span></p>
             <p><span id="feeLabel"></span> <strong class="num" id="resFee"></strong></p>
             <p><span id="netLabel"></span> <strong class="num" id="resNet"></strong></p>
-            <p><strong class="fee-tag">If you don't save, you don't pay.</strong></p>
+            <p><strong class="fee-tag" data-i18n="feeTag">If you don't save, you don't pay.</strong></p>
           </div>
-          <button type="button" class="btn" id="openReport">Generate CFO report →</button>
+          <button type="button" class="btn" id="openReport" data-i18n="openReport">Generate CFO report →</button>
         </div>
       </div>
     </div>
@@ -943,46 +966,46 @@
   <!-- S5 — HOW TESORO WORKS -->
   <section id="how" aria-label="How Tesoro works">
     <div class="wrap">
-      <h2 class="eyebrow">How Tesoro works</h2>
-      <p class="lead">Three engagements, in the order a CFO buys them.</p>
+      <h2 class="eyebrow" data-i18n="howEyebrow">How Tesoro works</h2>
+      <p class="lead" data-i18n="howLead">Three engagements, in the order a CFO buys them.</p>
       <div class="grid-3">
         <article class="card step">
-          <p class="step-marker">01 See</p>
-          <h3>The AI spend audit.</h3>
-          <p>We connect billing and gateway data and hand back one number: what you spend, what it buys, and what it should cost. Delivered in weeks, through people you already know.</p>
+          <p class="step-marker" data-i18n="step1m">01 See</p>
+          <h3 data-i18n="step1h">The AI spend audit.</h3>
+          <p data-i18n="step1p">We connect billing and gateway data and hand back one number: what you spend, what it buys, and what it should cost. Delivered in weeks, through people you already know.</p>
         </article>
         <article class="card step">
-          <p class="step-marker">02 Save</p>
-          <h3>The routing gateway.</h3>
-          <p>Every request goes to the cheapest model that clears the quality bar — re-decided continuously as rate cards move. Runs on the same router demonstrated at <a href="https://torre.q-starr.app">torre.q-starr.app</a>; Tesoro is the CFO door into it. Priced at 20% of verified savings plus a platform fee.</p>
+          <p class="step-marker" data-i18n="step2m">02 Save</p>
+          <h3 data-i18n="step2h">The routing gateway.</h3>
+          <p data-i18n="step2p">Every request goes to the cheapest model that clears the quality bar — re-decided continuously as rate cards move. Runs on the same router demonstrated at <a href="https://torre.q-starr.app">torre.q-starr.app</a>; Tesoro is the CFO door into it. Priced at 20% of verified savings plus a platform fee.</p>
         </article>
         <article class="card step">
-          <p class="step-marker">03 Serve</p>
-          <h3>Sovereign capacity.</h3>
-          <p>Regulated workloads only capture open-model savings if the model runs in-jurisdiction. SenseiNode operates that capacity in-region. Residency enforced: LGPD (BR), Ley 25.326 (AR), LFPDPPP (MX), Ley 19.628 (CL), Ley 18.331 (UY).</p>
+          <p class="step-marker" data-i18n="step3m">03 Serve</p>
+          <h3 data-i18n="step3h">Sovereign capacity.</h3>
+          <p data-i18n="step3p">Regulated workloads only capture open-model savings if the model runs in-jurisdiction. SenseiNode operates that capacity in-region. Residency enforced: LGPD (BR), Ley 25.326 (AR), LFPDPPP (MX), Ley 19.628 (CL), Ley 18.331 (UY).</p>
         </article>
       </div>
 
-      <h3 class="eyebrow flow-eyebrow">Where a request goes</h3>
+      <h3 class="eyebrow flow-eyebrow" data-i18n="flowEyebrow">Where a request goes</h3>
       <div class="flow">
         <div class="flow-node">
-          <strong>Your AI workloads</strong>
-          <p>Chat, agents, support, code — every API call your teams already make.</p>
+          <strong data-i18n="flow1h">Your AI workloads</strong>
+          <p data-i18n="flow1p">Chat, agents, support, code — every API call your teams already make.</p>
         </div>
         <span class="flow-arrow" aria-hidden="true">→</span>
         <div class="flow-node">
-          <strong>Tesoro gateway</strong>
-          <p>Policy, quality bar, audit log. Every request re-priced continuously.</p>
+          <strong data-i18n="flow2h">Tesoro gateway</strong>
+          <p data-i18n="flow2p">Policy, quality bar, audit log. Every request re-priced continuously.</p>
         </div>
         <span class="flow-arrow" aria-hidden="true">→</span>
         <div class="flow-node">
-          <strong>Cheapest qualifying model</strong>
-          <p>Frontier only when the task demands it; MID and OPEN when it doesn't.</p>
+          <strong data-i18n="flow3h">Cheapest qualifying model</strong>
+          <p data-i18n="flow3p">Frontier only when the task demands it; MID and OPEN when it doesn't.</p>
         </div>
         <span class="flow-arrow" aria-hidden="true">→</span>
         <div class="flow-node">
-          <strong>In-region capacity</strong>
-          <p>Regulated traffic lands on SenseiNode infrastructure, in-jurisdiction.</p>
+          <strong data-i18n="flow4h">In-region capacity</strong>
+          <p data-i18n="flow4p">Regulated traffic lands on SenseiNode infrastructure, in-jurisdiction.</p>
         </div>
       </div>
       <p class="flow-money" id="flowMoney"></p>
@@ -992,14 +1015,14 @@
   <!-- S6 — OPERATOR ECONOMICS -->
   <section id="operator" aria-label="Operator economics">
     <div class="wrap">
-      <h2 class="eyebrow">Operator economics</h2>
-      <p class="lead">What Tesoro earns the operator — before a single capacity contract.</p>
+      <h2 class="eyebrow" data-i18n="opEyebrow">Operator economics</h2>
+      <p class="lead" data-i18n="opLead">What Tesoro earns the operator — before a single capacity contract.</p>
       <div class="grid-3" id="revenueLines"></div>
       <div class="card portfolio-card">
         <div class="table-scroll">
           <table>
             <thead>
-              <tr><th>Tenant</th><th class="r">Savings/mo</th><th class="r">Revenue/mo</th></tr>
+              <tr><th data-i18n="thTenant">Tenant</th><th class="r" data-i18n="thSav">Savings/mo</th><th class="r" data-i18n="thRev">Revenue/mo</th></tr>
             </thead>
             <tbody id="portfolioRows"></tbody>
           </table>
@@ -1008,9 +1031,9 @@
           <p class="big-num num" id="mrrNum"></p>
           <p class="big-num num" id="arrNum"></p>
         </div>
-        <p class="portfolio-sub">six tenants, before line 03 — each added tenant lands at ~flat software cost.</p>
+        <p class="portfolio-sub" data-i18n="portSub">six tenants, before line 03 — each added tenant lands at ~flat software cost.</p>
       </div>
-      <p class="closing">Models are replaceable plugs; a treasury the CFO trusts is not. Tesoro assumes the operator is SenseiNode.</p>
+      <p class="closing" data-i18n="closing">Models are replaceable plugs; a treasury the CFO trusts is not. Tesoro assumes the operator is SenseiNode.</p>
     </div>
   </section>
 
@@ -1021,25 +1044,25 @@
   <div class="report">
     <h2 id="reportTitle"></h2>
     <div class="report-head">
-      <p>Company: <strong id="repCompany"></strong></p>
-      <p>Prepared by: Tesoro · SenseiNode</p>
+      <p><span data-i18n="repCompanyLbl">Company:</span> <strong id="repCompany"></strong></p>
+      <p data-i18n="repBy">Prepared by: Tesoro · SenseiNode</p>
     </div>
     <dl class="report-lines" id="repLines"></dl>
     <p class="report-eps" id="repEps" hidden></p>
-    <h3>Savings by department</h3>
+    <h3 data-i18n="repDeptH">Savings by department</h3>
     <table><tbody id="repDept"></tbody></table>
-    <p class="report-foot">100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.</p>
+    <p class="report-foot" data-i18n="repFoot">100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.</p>
     <div class="report-actions">
-      <button type="button" class="btn" id="copyReport">Copy report</button>
-      <button type="button" class="btn btn-ghost" id="closeReport">Close</button>
+      <button type="button" class="btn" id="copyReport" data-i18n="copyReport">Copy report</button>
+      <button type="button" class="btn btn-ghost" id="closeReport" data-i18n="closeReport">Close</button>
     </div>
   </div>
 </dialog>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>TESORO — working demo of an AI spend-management ("treasury") business for regulated LatAm. All companies, bills, rates, savings and revenue are simulated client-side for illustration. Model rates marked • are illustrative; verify current rate cards before client use. Figures are not quotes, forecasts or financial advice.</p>
-    <p>Sister demo: <a href="https://torre.q-starr.app">torre.q-starr.app</a></p>
+    <p data-i18n="footDisc">TESORO — working demo of an AI spend-management ("treasury") business for regulated LatAm. All companies, bills, rates, savings and revenue are simulated client-side for illustration. Model rates marked • are illustrative; verify current rate cards before client use. Figures are not quotes, forecasts or financial advice.</p>
+    <p data-i18n="footSister">Sister demo: <a href="https://torre.q-starr.app">torre.q-starr.app</a></p>
   </div>
 </footer>
 
@@ -1052,17 +1075,28 @@ const CONFIG = {
     worldPerSec: 1109.84,   // frontier token spend, worldwide, $/sec
     managedPerSec: 510.53,  // the same work, managed, $/sec — spread = A − B
   },
+  // Bilingual fields use [en, es]; plain strings are identical in both languages.
   stats: [
-    { num: "79%", label: "of enterprises had AI cost overruns in the past 12 months", src: "2026 enterprise surveys" },
-    { num: "$11.5B → $37B", label: "enterprise generative-AI spend, 2024 → 2025", src: "Menlo Ventures" },
-    { num: "11%", label: "open models' share of enterprise usage — falling, not rising",
-      kicker: "The arbitrage exists. Unmanaged enterprises can't capture it.", src: "Menlo Ventures" },
+    { num: "79%",
+      label: ["of enterprises had AI cost overruns in the past 12 months",
+              "de las empresas tuvo sobrecostos de IA en los últimos 12 meses"],
+      src: ["2026 enterprise surveys", "encuestas empresariales 2026"] },
+    { num: "$11.5B → $37B",
+      label: ["enterprise generative-AI spend, 2024 → 2025",
+              "gasto empresarial en IA generativa, 2024 → 2025"],
+      src: "Menlo Ventures" },
+    { num: "11%",
+      label: ["open models' share of enterprise usage — falling, not rising",
+              "participación de modelos abiertos en el uso empresarial — cae, no sube"],
+      kicker: ["The arbitrage exists. Unmanaged enterprises can't capture it.",
+               "El arbitraje existe. Sin gestión, la empresa no lo puede capturar."],
+      src: "Menlo Ventures" },
   ],
   rates: [ // USD per 1M tokens; ill = illustrative (renders •)
     { model: "Claude Opus 4.8",  tier: "FRONTIER", input: 5.00, output: 25.00, ill: true,  note: "" },
     { model: "GPT-5.6 Sol",      tier: "FRONTIER", input: 7.00, output: 30.00, ill: true,  note: "" },
     { model: "Claude Sonnet 5",  tier: "MID",      input: 3.00, output: 15.00, ill: false, note: "" },
-    { model: "Kimi K3",          tier: "MID",      input: 3.00, output: 15.00, ill: false, note: "launched Jul 16 · cache-hit input $0.30" },
+    { model: "Kimi K3",          tier: "MID",      input: 3.00, output: 15.00, ill: false, note: ["launched Jul 16 · cache-hit input $0.30", "lanzado 16 jul · entrada con caché $0,30"] },
     { model: "GLM 5.2",          tier: "OPEN",     input: 1.50, output: 7.00,  ill: true,  note: "" },
     { model: "Kimi K2.7 Code",   tier: "OPEN",     input: 0.95, output: 4.00,  ill: false, note: "" },
     { model: "Llama 4 (hosted)", tier: "OPEN",     input: 0.75, output: 1.50,  ill: true,  note: "" },
@@ -1070,41 +1104,138 @@ const CONFIG = {
   ],
   volatility: { from: 0.95, to: 3.00 }, // K2.6 → K3 input $/M, Apr → Jul 16
   profiles: {
-    fintech: { name: "Regional fintech · BR · 1,200 staff", bill: 180000, s: [0.34, 0.22, 0.07, 0.06] },
-    telco:   { name: "Telco customer ops · MX · public co",  bill: 420000, s: [0.30, 0.28, 0.05, 0.04] },
-    retail:  { name: "Retail & e-commerce · AR · 400 staff", bill: 85000,  s: [0.40, 0.18, 0.09, 0.08] },
-    custom:  { name: "Your number", bill: null, s: [0.34, 0.22, 0.07, 0.06] },
+    fintech: { name: ["Regional fintech · BR · 1,200 staff", "Fintech regional · BR · 1.200 empleados"], bill: 180000, s: [0.34, 0.22, 0.07, 0.06] },
+    telco:   { name: ["Telco customer ops · MX · public co", "Atención al cliente telco · MX · empresa pública"], bill: 420000, s: [0.30, 0.28, 0.05, 0.04] },
+    retail:  { name: ["Retail & e-commerce · AR · 400 staff", "Retail y e-commerce · AR · 400 empleados"], bill: 85000,  s: [0.40, 0.18, 0.09, 0.08] },
+    custom:  { name: ["Your number", "Tu número"], bill: null, s: [0.34, 0.22, 0.07, 0.06] },
   },
   slider: { min: 10000, max: 1500000, default: 250000 }, // log scale
   levers: [
-    { label: "Model right-sizing",   r: 0.85, sub: "frontier calls that a MID/OPEN model clears at the same quality bar" },
-    { label: "Prompt caching",       r: 0.70, sub: "repeat context re-billed at full rate instead of cache-hit rates" },
-    { label: "Agent guardrails",     r: 0.90, sub: "runaway loops and unbounded multi-step workflows, capped" },
-    { label: "Shadow subscriptions", r: 0.55, sub: "unmanaged seats and duplicate tools, consolidated" },
+    { label: ["Model right-sizing", "Dimensionar el modelo"], r: 0.85,
+      sub: ["frontier calls that a MID/OPEN model clears at the same quality bar",
+            "llamadas a frontier que un modelo MID/OPEN resuelve con la misma calidad"] },
+    { label: ["Prompt caching", "Caché de prompts"], r: 0.70,
+      sub: ["repeat context re-billed at full rate instead of cache-hit rates",
+            "contexto repetido facturado a tarifa plena en vez de tarifa con caché"] },
+    { label: ["Agent guardrails", "Límites a los agentes"], r: 0.90,
+      sub: ["runaway loops and unbounded multi-step workflows, capped",
+            "bucles descontrolados y flujos multi-paso sin tope, acotados"] },
+    { label: ["Shadow subscriptions", "Suscripciones en la sombra"], r: 0.55,
+      sub: ["unmanaged seats and duplicate tools, consolidated",
+            "licencias sin gestionar y herramientas duplicadas, consolidadas"] },
   ],
   conservativeFactor: 0.7,
   feeShare: 0.20,
   platformFee: 3000,
   sharesOutstanding: 350e6, // telco EPS line
   chargeback: { // department splits of net savings; custom uses fintech
-    fintech: [["Engineering", 0.46], ["Support", 0.24], ["Ops", 0.18], ["Growth", 0.12]],
-    telco:   [["Support", 0.52], ["Engineering", 0.22], ["Ops", 0.16], ["Marketing", 0.10]],
-    retail:  [["Support", 0.38], ["Growth", 0.27], ["Engineering", 0.22], ["Ops", 0.13]],
+    fintech: [[["Engineering", "Ingeniería"], 0.46], [["Support", "Soporte"], 0.24], [["Ops", "Operaciones"], 0.18], [["Growth", "Growth"], 0.12]],
+    telco:   [[["Support", "Soporte"], 0.52], [["Engineering", "Ingeniería"], 0.22], [["Ops", "Operaciones"], 0.16], [["Marketing", "Marketing"], 0.10]],
+    retail:  [[["Support", "Soporte"], 0.38], [["Growth", "Growth"], 0.27], [["Engineering", "Ingeniería"], 0.22], [["Ops", "Operaciones"], 0.13]],
   },
   portfolio: [ // fixed, Typical mode — not recomputed from UI state (§7)
     ["Fintech A", 97000, 22400],
     ["Fintech B", 97000, 22400],
-    ["Telco",     217600, 46500],
+    [["Telco", "Telco"], 217600, 46500],
     ["Retail A",  50200, 13000],
     ["Retail B",  50200, 13000],
     ["Retail C",  50200, 13000],
   ],
   revenueLines: [
-    { n: "01", title: "Gain-share",         copy: "20% of verified savings · scales with every dollar the client stops wasting" },
-    { n: "02", title: "Platform fee",       copy: "$3,000/mo per tenant · recurring contract revenue" },
-    { n: "03", title: "Sovereign capacity", copy: "open-model savings for regulated workloads require in-region inference — demand converts to reserved SenseiNode capacity contracts" },
+    { n: "01", title: ["Gain-share", "Participación en el ahorro"],
+      copy: ["20% of verified savings · scales with every dollar the client stops wasting",
+             "20% del ahorro verificado · crece con cada dólar que el cliente deja de malgastar"] },
+    { n: "02", title: ["Platform fee", "Fee de plataforma"],
+      copy: ["$3,000/mo per tenant · recurring contract revenue",
+             "$3.000/mes por cliente · ingreso recurrente por contrato"] },
+    { n: "03", title: ["Sovereign capacity", "Capacidad soberana"],
+      copy: ["open-model savings for regulated workloads require in-region inference — demand converts to reserved SenseiNode capacity contracts",
+             "el ahorro con modelos abiertos en cargas reguladas exige inferencia en la región — esa demanda se convierte en contratos de capacidad reservada de SenseiNode"] },
   ],
 };
+
+/* ── i18n ── English lives in the markup; Spanish lives here. ───────────────
+   Money stays en-US formatted in both languages (these are USD figures). */
+let LANG = localStorage.getItem("tesoro_lang") || "en";
+const tx = (en, es) => (LANG === "es" ? es : en);
+// T() unwraps a bilingual [en, es] pair; plain strings pass straight through.
+const T = (v) => (Array.isArray(v) ? tx(v[0], v[1]) : v);
+
+const I18N = { es: {
+  strapline: "la tesorería de IA para América Latina",
+  navProblem: "Problema", navRates: "Tarifas", navFlow: "Cómo funciona", navAudit: "Auditoría",
+  badge: "Simulado · En el navegador",
+
+  heroEyebrow: "La tesorería de IA para América Latina",
+  heroH1: "Gestión del gasto en IA",
+  heroTag: "El gasto en IA sin gestionar está en tu P&amp;L.",
+  heroSub: "Tesoro encuentra la fuga, rutea alrededor de ella y se paga solo con el ahorro.",
+  proofK1: "Semanas",
+  proofV1: "para exponer gasto, calidad y fuga de IA por equipo",
+  proofV2: "de participación sobre el ahorro verificado tras optimizar",
+  proofV3: "lógica de ruteo y residencia para cargas reguladas",
+  boardA: "Gasto en tokens frontier, a nivel mundial, desde que abriste esta página",
+  boardB: "El mismo trabajo, gestionado",
+  boardC: "El spread — lo que captura la gestión",
+  heroBasis: "Base: el gasto empresarial en APIs frontier proyecta más de US$35.000 M en 2026 ≈ US$1.110 por segundo, con una mezcla gestionada del 54%. Ilustrativo.",
+  heroCta: "Correr la auditoría ↓",
+
+  probEyebrow: "El problema",
+  probLead: "Todas las empresas compraron IA. Casi ninguna la mide.",
+  quotePara: "Su pronóstico: una caída de unos centavos en el BPA, rastreable a un gasto en tokens que nadie estaba mirando.",
+
+  rateEyebrow: "El tablero de tarifas",
+  rateLead: "Lo que cuesta un millón de tokens este mes — y por qué \"este mes\" es la parte importante.",
+  thModel: "Modelo", thTier: "Nivel", thIn: "Entrada", thOut: "Salida", thNote: "Nota",
+  rateFoot: "• ilustrativo — verificá las tarifas vigentes antes de usarlo con un cliente",
+  volEyebrow: "Movimiento a 90 días",
+  volCopy: "Kimi K2.6 era el modelo económico por defecto del router, a $0,95/$4. El 16 de julio su sucesor K3 salió a $3/$15 — 3,2× la entrada, 3,75× la salida, del mismo laboratorio, en menos de tres meses.",
+  volKicker: "Las decisiones de compra estáticas vencen. El ruteo continuo, no.",
+
+  audEyebrow: "La auditoría",
+  audLead: "Elegí una empresa parecida a la tuya. Mirá cómo la fuga se desglosa sola.",
+  modeCons: "Conservador", modeTyp: "Típico",
+  modeNote: "El modo conservador recorta cada palanca un 30%.",
+  resBillLbl: "Gasto mensual actual en IA",
+  resSavLbl: "Ahorro verificado",
+  resOptLbl: "Factura optimizada",
+  splitCap: "La factura de hoy, redistribuida — sigue gastado · <span class=\"k-net\">vuelve a vos</span> · <span class=\"k-fee\">Tesoro</span>",
+  feeTag: "Si no ahorrás, no pagás.",
+  openReport: "Generar informe para el CFO →",
+
+  howEyebrow: "Cómo funciona Tesoro",
+  howLead: "Tres servicios, en el orden en que un CFO los compra.",
+  step1m: "01 Ver", step1h: "La auditoría del gasto en IA.",
+  step1p: "Conectamos los datos de facturación y del gateway y devolvemos un solo número: cuánto gastás, qué compra ese gasto y cuánto debería costar. Entregado en semanas, a través de gente que ya conocés.",
+  step2m: "02 Ahorrar", step2h: "El gateway de ruteo.",
+  step2p: "Cada request va al modelo más barato que cumple la barra de calidad — y se vuelve a decidir de forma continua a medida que se mueven las tarifas. Corre sobre el mismo router que se demuestra en <a href=\"https://torre.q-starr.app\">torre.q-starr.app</a>; Tesoro es la puerta del CFO hacia él. Se cobra el 20% del ahorro verificado más un fee de plataforma.",
+  step3m: "03 Servir", step3h: "Capacidad soberana.",
+  step3p: "Las cargas reguladas solo capturan el ahorro de los modelos abiertos si el modelo corre dentro de la jurisdicción. SenseiNode opera esa capacidad en la región. Residencia aplicada: LGPD (BR), Ley 25.326 (AR), LFPDPPP (MX), Ley 19.628 (CL), Ley 18.331 (UY).",
+  flowEyebrow: "Por dónde pasa un request",
+  flow1h: "Tus cargas de IA",
+  flow1p: "Chat, agentes, soporte, código — cada llamada a la API que tus equipos ya hacen.",
+  flow2h: "Gateway de Tesoro",
+  flow2p: "Política, barra de calidad, registro de auditoría. Cada request se re-tarifa de forma continua.",
+  flow3h: "El modelo más barato que califica",
+  flow3p: "Frontier solo cuando la tarea lo exige; MID y OPEN cuando no.",
+  flow4h: "Capacidad en la región",
+  flow4p: "El tráfico regulado aterriza en infraestructura de SenseiNode, dentro de la jurisdicción.",
+
+  opEyebrow: "Economía del operador",
+  opLead: "Lo que Tesoro le genera al operador — antes de firmar un solo contrato de capacidad.",
+  thTenant: "Cliente", thSav: "Ahorro/mes", thRev: "Ingreso/mes",
+  portSub: "seis clientes, antes de la línea 03 — cada cliente adicional entra con costo de software casi plano.",
+  closing: "Los modelos son enchufes reemplazables; una tesorería en la que el CFO confía, no. Tesoro asume que el operador es SenseiNode.",
+
+  repCompanyLbl: "Empresa:",
+  repBy: "Preparado por: Tesoro · SenseiNode",
+  repDeptH: "Ahorro por área",
+  repFoot: "El 100% de los requests ruteados queda registrado con modelo, jurisdicción, motivo de política y costo. Cifras simuladas con fines demostrativos.",
+  copyReport: "Copiar informe", closeReport: "Cerrar",
+
+  footDisc: "TESORO — demo funcional de un negocio de gestión del gasto en IA (\"tesorería\") para LatAm regulada. Todas las empresas, facturas, tarifas, ahorros e ingresos están simulados en el navegador con fines ilustrativos. Las tarifas marcadas con • son ilustrativas; verificalas antes de usarlas con un cliente. Las cifras no son cotizaciones, pronósticos ni asesoramiento financiero.",
+  footSister: "Demo hermana: <a href=\"https://torre.q-starr.app\">torre.q-starr.app</a>",
+}};
 
 const $ = (id) => document.getElementById(id);
 const money2 = (v) => "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1139,26 +1270,30 @@ const rate2 = (v) => "$" + v.toFixed(2);
 })();
 
 /* ── S2 stat cards ── */
-$("statCards").innerHTML = CONFIG.stats.map((s) => `
+function renderStats() {
+  $("statCards").innerHTML = CONFIG.stats.map((s) => `
   <article class="card">
     <p class="stat-num num">${s.num}</p>
-    <p class="stat-label">${s.label}</p>
-    ${s.kicker ? `<p class="stat-kicker">${s.kicker}</p>` : ""}
-    <p class="stat-src">src ${s.src}</p>
+    <p class="stat-label">${T(s.label)}</p>
+    ${s.kicker ? `<p class="stat-kicker">${T(s.kicker)}</p>` : ""}
+    <p class="stat-src">${tx("src", "fuente")} ${T(s.src)}</p>
   </article>`).join("");
+}
 
 /* ── S3 rate board ── */
 const CHIP = { FRONTIER: "chip-frontier", MID: "chip-mid", OPEN: "chip-open" };
-$("rateRows").innerHTML = CONFIG.rates.map((r) => `
+function renderRates() {
+  $("rateRows").innerHTML = CONFIG.rates.map((r) => `
   <tr>
     <td class="model">${r.model}</td>
     <td><span class="chip ${CHIP[r.tier]}">${r.tier}</span></td>
     <td class="r num">${rate2(r.input)}${r.ill ? " •" : ""}</td>
     <td class="r num">${rate2(r.output)}${r.ill ? " •" : ""}</td>
-    <td class="note">${r.note}</td>
+    <td class="note">${T(r.note)}</td>
   </tr>`).join("");
-$("sparkFrom").textContent = rate2(CONFIG.volatility.from) + " · Apr";
-$("sparkTo").textContent = rate2(CONFIG.volatility.to) + " · Jul 16";
+  $("sparkFrom").textContent = rate2(CONFIG.volatility.from) + tx(" · Apr", " · abr");
+  $("sparkTo").textContent = rate2(CONFIG.volatility.to) + tx(" · Jul 16", " · 16 jul");
+}
 
 /* ── S4 audit simulator ── */
 const state = { profile: "fintech", mode: "typical", customBill: CONFIG.slider.default };
@@ -1185,17 +1320,18 @@ function buildPresets() {
   $("presetList").innerHTML = order.map((k) => {
     const p = CONFIG.profiles[k];
     return `<button type="button" class="preset" data-profile="${k}" aria-pressed="false">
-      <span class="preset-name">${p.name}</span>
-      <span class="preset-bill num">${money0(p.bill)}/mo</span>
+      <span class="preset-name">${T(p.name)}</span>
+      <span class="preset-bill num">${money0(p.bill)}${tx("/mo", "/mes")}</span>
     </button>`;
   }).join("") + `
     <div class="preset-custom" id="customWrap">
       <button type="button" class="preset" data-profile="custom" aria-pressed="false">
-        <span class="preset-name">${CONFIG.profiles.custom.name}</span>
+        <span class="preset-name">${T(CONFIG.profiles.custom.name)}</span>
         <span class="preset-bill num" id="customBillLabel"></span>
       </button>
       <div class="custom-slider-row">
-        <input type="range" id="customSlider" min="0" max="1000" step="1" aria-label="Monthly AI spend, custom">
+        <input type="range" id="customSlider" min="0" max="1000" step="1"
+               aria-label="${tx("Monthly AI spend, custom", "Gasto mensual en IA, personalizado")}">
       </div>
     </div>`;
 }
@@ -1214,14 +1350,14 @@ function render() {
   document.querySelectorAll(".mode-toggle button").forEach((btn) => {
     btn.setAttribute("aria-pressed", String(btn.dataset.mode === state.mode));
   });
-  $("customBillLabel").textContent = money0(state.customBill) + "/mo";
+  $("customBillLabel").textContent = money0(state.customBill) + tx("/mo", "/mes");
   $("resBill").textContent = money0(r.bill);
   $("leverRows").innerHTML = CONFIG.levers.map((L, i) => `
     <div class="lever">
       <div class="lever-top">
         <div>
-          <p class="lever-label">${L.label}</p>
-          <p class="lever-sub">${L.sub}</p>
+          <p class="lever-label">${T(L.label)}</p>
+          <p class="lever-sub">${T(L.sub)}</p>
         </div>
         <p class="lever-amt num">−${money0(r.levers[i])}</p>
       </div>
@@ -1230,8 +1366,14 @@ function render() {
   $("resSavings").textContent = money0(r.total);
   $("resPct").textContent = r.pct + "%";
   $("resOpt").textContent = money0(r.optimized);
-  $("feeLabel").textContent = `Tesoro fee — ${Math.round(CONFIG.feeShare * 100)}% of verified savings:`;
-  $("netLabel").textContent = `Net to you — ${Math.round((1 - CONFIG.feeShare) * 100)}%:`;
+  const feePct = Math.round(CONFIG.feeShare * 100);
+  const netPct = Math.round((1 - CONFIG.feeShare) * 100);
+  $("feeLabel").textContent = tx(
+    `Tesoro fee — ${feePct}% of verified savings:`,
+    `Fee de Tesoro — ${feePct}% del ahorro verificado:`);
+  $("netLabel").textContent = tx(
+    `Net to you — ${netPct}%:`,
+    `Neto para vos — ${netPct}%:`);
   $("resFee").textContent = money0(r.fee);
   $("resNet").textContent = money0(r.net);
   $("sbOpt").style.width = (r.optimized / r.bill) * 100 + "%";
@@ -1239,61 +1381,84 @@ function render() {
   $("sbFee").style.width = (r.fee / r.bill) * 100 + "%";
 }
 
-buildPresets();
-$("customSlider").value = billToSlider(CONFIG.slider.default);
+// buildPresets() re-creates the slider node, so its listener is re-attached here
+// every time the presets are rebuilt (including on a language switch).
+function wireSlider() {
+  const sl = $("customSlider");
+  sl.value = billToSlider(state.customBill);
+  sl.addEventListener("input", (e) => {
+    state.customBill = sliderToBill(Number(e.target.value));
+    state.profile = "custom";
+    render();
+  });
+}
+
+// Delegated, so it survives every re-render.
 document.addEventListener("click", (e) => {
   const preset = e.target.closest("[data-profile]");
   if (preset) { state.profile = preset.dataset.profile; render(); return; }
   const mode = e.target.closest(".mode-toggle button");
   if (mode) { state.mode = mode.dataset.mode; render(); }
 });
-$("customSlider").addEventListener("input", (e) => {
-  state.customBill = sliderToBill(Number(e.target.value));
-  state.profile = "custom";
-  render();
-});
-render();
 
 /* ── S5 money strip (from CONFIG) ── */
-$("flowMoney").innerHTML =
-  `Verified savings are split monthly: <strong>${Math.round((1 - CONFIG.feeShare) * 100)}% stays with you</strong> · ` +
-  `${Math.round(CONFIG.feeShare * 100)}% to Tesoro, plus a $${CONFIG.platformFee.toLocaleString("en-US")}/mo platform fee. ` +
-  `<strong>If you don't save, you don't pay.</strong>`;
+function renderFlowMoney() {
+  const net = Math.round((1 - CONFIG.feeShare) * 100);
+  const fee = Math.round(CONFIG.feeShare * 100);
+  const plat = "$" + CONFIG.platformFee.toLocaleString("en-US");
+  $("flowMoney").innerHTML = tx(
+    `Verified savings are split monthly: <strong>${net}% stays with you</strong> · ${fee}% to Tesoro, ` +
+    `plus a ${plat}/mo platform fee. <strong>If you don't save, you don't pay.</strong>`,
+    `El ahorro verificado se reparte todos los meses: <strong>el ${net}% queda con vos</strong> · ${fee}% para Tesoro, ` +
+    `más un fee de plataforma de ${plat}/mes. <strong>Si no ahorrás, no pagás.</strong>`
+  );
+}
 
 /* ── S6 operator economics ── */
-$("revenueLines").innerHTML = CONFIG.revenueLines.map((l) => `
+function renderOperator() {
+  $("revenueLines").innerHTML = CONFIG.revenueLines.map((l) => `
   <article class="card step">
-    <p class="step-marker">${l.n} ${l.title}</p>
-    <p>${l.copy}</p>
+    <p class="step-marker">${l.n} ${T(l.title)}</p>
+    <p>${T(l.copy)}</p>
   </article>`).join("");
-$("portfolioRows").innerHTML = CONFIG.portfolio.map(([name, sav, rev]) => `
+  $("portfolioRows").innerHTML = CONFIG.portfolio.map(([name, sav, rev]) => `
   <tr>
-    <td class="model">${name}</td>
+    <td class="model">${T(name)}</td>
     <td class="r num">${"$" + sav.toLocaleString("en-US")}</td>
     <td class="r num">${"$" + rev.toLocaleString("en-US")}</td>
   </tr>`).join("");
-const MRR = CONFIG.portfolio.reduce((sum, row) => sum + row[2], 0);
-$("mrrNum").textContent = "≈ $" + MRR.toLocaleString("en-US") + " MRR";
-$("arrNum").textContent = "≈ $" + ((MRR * 12) / 1e6).toFixed(2) + "M ARR";
+  const MRR = CONFIG.portfolio.reduce((sum, row) => sum + row[2], 0);
+  $("mrrNum").textContent = "≈ $" + MRR.toLocaleString("en-US") + " MRR";
+  $("arrNum").textContent = "≈ $" + ((MRR * 12) / 1e6).toFixed(2) + "M ARR";
+}
 
 /* ── S7 CFO report modal ── */
 const modal = $("reportModal");
-const monthYear = () => new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+const monthYear = () => new Date().toLocaleDateString(tx("en-US", "es-AR"), { month: "long", year: "numeric" });
 let reportText = "";
 
 function fillReport() {
   const r = compute();
-  const profileName = CONFIG.profiles[state.profile].name;
-  const title = `Monthly AI treasury report — ${monthYear()} (simulated)`;
-  const lines = [
+  const profileName = T(CONFIG.profiles[state.profile].name);
+  const feePct = Math.round(CONFIG.feeShare * 100);
+  const title = tx(
+    `Monthly AI treasury report — ${monthYear()} (simulated)`,
+    `Informe mensual de tesorería de IA — ${monthYear()} (simulado)`);
+  const lines = tx([
     ["AI spend, unmanaged run-rate", money0(r.bill)],
     ["Verified savings this month", money0(r.total)],
-    [`Tesoro fee (${Math.round(CONFIG.feeShare * 100)}% gain-share)`, money0(r.fee)],
+    [`Tesoro fee (${feePct}% gain-share)`, money0(r.fee)],
     ["Net savings", money0(r.net)],
     ["Annualized net savings", money0(r.net * 12)],
-  ];
+  ], [
+    ["Gasto en IA, run-rate sin gestionar", money0(r.bill)],
+    ["Ahorro verificado este mes", money0(r.total)],
+    [`Fee de Tesoro (${feePct}% del ahorro)`, money0(r.fee)],
+    ["Ahorro neto", money0(r.net)],
+    ["Ahorro neto anualizado", money0(r.net * 12)],
+  ]);
   const splits = CONFIG.chargeback[state.profile] || CONFIG.chargeback.fintech;
-  const dept = splits.map(([d, share]) => [d, money0(r.net * share)]);
+  const dept = splits.map(([d, share]) => [T(d), money0(r.net * share)]);
 
   $("reportTitle").textContent = title;
   $("repCompany").textContent = profileName;
@@ -1303,7 +1468,9 @@ function fillReport() {
   if (state.profile === "telco") {
     const cents = ((r.net * 12) / CONFIG.sharesOutstanding * 100).toFixed(1);
     const shares = Math.round(CONFIG.sharesOutstanding / 1e6) + "M";
-    eps.textContent = `EPS effect (illustrative): at ${shares} shares outstanding, annualized net savings ≈ ${cents}¢ per share.`;
+    eps.textContent = tx(
+      `EPS effect (illustrative): at ${shares} shares outstanding, annualized net savings ≈ ${cents}¢ per share.`,
+      `Efecto en el BPA (ilustrativo): con ${shares} acciones en circulación, el ahorro neto anualizado ≈ ${cents}¢ por acción.`);
     eps.hidden = false;
   } else {
     eps.hidden = true;
@@ -1313,16 +1480,17 @@ function fillReport() {
 
   reportText = [
     title,
-    `Company: ${profileName}`,
-    "Prepared by: Tesoro · SenseiNode",
+    tx(`Company: ${profileName}`, `Empresa: ${profileName}`),
+    tx("Prepared by: Tesoro · SenseiNode", "Preparado por: Tesoro · SenseiNode"),
     "",
     ...lines.map(([k, v]) => `${k}: ${v}`),
     ...(eps.hidden ? [] : ["", eps.textContent]),
     "",
-    "Savings by department",
+    tx("Savings by department", "Ahorro por área"),
     ...dept.map(([d, v]) => `  ${d}: ${v}`),
     "",
-    "100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.",
+    tx("100% of routed requests audit-logged with model, jurisdiction, policy reason and cost. Figures simulated for demonstration.",
+       "El 100% de los requests ruteados queda registrado con modelo, jurisdicción, motivo de política y costo. Cifras simuladas con fines demostrativos."),
   ].join("\n");
 }
 
@@ -1342,9 +1510,44 @@ $("copyReport").addEventListener("click", async () => {
     ta.remove();
   }
   const label = btn.textContent;
-  btn.textContent = "Copied ✓";
+  btn.textContent = tx("Copied ✓", "Copiado ✓");
   setTimeout(() => { btn.textContent = label; }, 1500);
 });
+
+/* ── language apply + init ──────────────────────────────────────────────────
+   English is snapshotted from the markup at load, so it never duplicates. */
+const EN_SNAP = {};
+document.querySelectorAll("[data-i18n]").forEach((el) => {
+  EN_SNAP[el.getAttribute("data-i18n")] = el.innerHTML;
+});
+
+function applyLang(lang) {
+  LANG = lang;
+  localStorage.setItem("tesoro_lang", lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const k = el.getAttribute("data-i18n");
+    const v = lang === "es" ? (I18N.es[k] != null ? I18N.es[k] : EN_SNAP[k]) : EN_SNAP[k];
+    if (v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll(".langbtn").forEach((b) =>
+    b.classList.toggle("active", b.dataset.lang === lang));
+  // repaint everything rendered from CONFIG
+  renderStats();
+  renderRates();
+  buildPresets();
+  wireSlider();
+  render();
+  renderFlowMoney();
+  renderOperator();
+  if (modal.open) fillReport();
+}
+
+document.querySelectorAll(".langbtn").forEach((b) => {
+  b.addEventListener("click", () => applyLang(b.dataset.lang));
+});
+
+applyLang(LANG);
 </script>
 
 <script defer src="https://gallery.q-starr.app/track.js" data-site="tesoro"></script>
